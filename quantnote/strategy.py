@@ -28,7 +28,8 @@ class Strategy():
             factor = self.custom_factor(ticker, ftype)
         return factor
     
-    def compute_factor_zscore(self, universe_list, ftype, groupby_sector=False):
+    def compute_factor_series(self, universe_list, ftype, groupby_sector=False, 
+        is_zscore=True):
         ticker_to_factor = {}
         ticker_to_sector = {}
         for ticker in universe_list:
@@ -52,7 +53,8 @@ class Strategy():
             df = df.groupby('sector').transform(lambda x:(x-x.mean())/x.std(ddof=0)).dropna()
             factor_series = df['factor'].sort_values(ascending=False)
         else:
-            factor_series = (factor_series-factor_series.mean())/factor_series.std()
+            if is_zscore:
+                factor_series = (factor_series-factor_series.mean())/factor_series.std()
         
         return factor_series
     
