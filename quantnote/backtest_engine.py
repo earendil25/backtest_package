@@ -285,6 +285,8 @@ class BacktestEngine():
             is_rebal = (date.weekday() == 4)
         elif period == 'M':
             is_rebal = (tomorrow.month != date.month)
+        elif period == 'Q':
+            is_rebal = (tomorrow.month != date.month) and (tomorrow.month in [1,4,7,10])
         else:
             is_rebal = False
 
