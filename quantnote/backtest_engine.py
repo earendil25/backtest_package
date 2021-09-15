@@ -423,6 +423,9 @@ class BacktestEngine():
             stat_df = pd.concat([stat_df, stat_df_b], axis=1)
             stat_df.columns = ['Strategy', 'Benchmark']
 
+        self.stat = {
+            'cagr':cagr, 'vol':vol, 'sharpe':sharpe
+        }
         return stat_df
 
     def show_sectorflow(self, filename=None):
