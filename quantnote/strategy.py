@@ -63,7 +63,7 @@ class Strategy():
         elif type == 'zscore':
                 factor_series = (factor_series-factor_series.mean())/factor_series.std()
         elif type == 'rank':
-            factor_series = factor_series.rank(ascending=False)/len(factor_series)
+            factor_series = factor_series.rank(ascending=True)/len(factor_series)
         elif type == 'capnorm':
             factor_series = factor_series/self.compute_factor_series(universe_list, 'marketcap')
         return factor_series
