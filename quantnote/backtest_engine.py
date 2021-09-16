@@ -16,13 +16,13 @@ def timeis(func):
 
 
 class BacktestEngine():
-    def __init__(self, db_name=None):
+    def __init__(self, db_name=None, ffill=True):
         self.db = db_name
         self.cache = {}
-        self.initialize()
+        self.initialize(ffill)
         
     @timeis
-    def initialize(self):
+    def initialize(self, ffill):
         print('Loading DB...')
         stime = time.time()
 
@@ -83,6 +83,14 @@ class BacktestEngine():
         self.cache['fundamentals'] = dict(tuple(fundamental_df.groupby('ticker'))) #divide_by_ticker(fundamental_df, None)
         self.cache['metric'] = dict(tuple(metric_df.groupby('ticker'))) #divide_by_ticker(metric_df, None)
         self.cache['market'] = dict(tuple(market_df.groupby('ticker'))) #divide_by_ticker(market_df, None)
+
+        if ffill:
+            for key in self.cache['macro']:
+                self.cache['macro'][key] = self.cache['macro'][key].ffill()
+            for key in self.cache['fundamentals']:
+                self.cache['fundamentals'][key] = self.cache['fundamentals'][key].ffill()
+            for key in self.cache['metric']:
+                self.cache['metric'][key] = self.cache['metric'][key].ffill()
         
         
     def get_universe(self, date):

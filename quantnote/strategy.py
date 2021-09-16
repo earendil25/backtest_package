@@ -74,10 +74,9 @@ class Strategy():
         assert np.abs(sum(target_weight.values())-1) < 1e-6
         return target_weight
     
-    def get_value(self, table, ticker, value, lag=0, ffill=True):
+    def get_value(self, table, ticker, value, lag=0):
         try:
             df = self.cache[table][ticker]
-            if ffill: df=df.ffill()
             if table == 'tickerinfo':
                 x = df[value].iloc[0]
             else:
@@ -86,10 +85,9 @@ class Strategy():
             x = np.nan
         return x
     
-    def get_value_list(self, table, ticker, value, lag='max', ffill=True):
+    def get_value_list(self, table, ticker, value, lag='max'):
         try:
             df = self.cache[table][ticker]
-            if ffill: df=df.ffill()
             if lag == 'max':
                 x = df[value]
             else:
